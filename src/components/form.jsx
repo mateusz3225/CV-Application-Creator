@@ -9,17 +9,27 @@ function Input({name,type, onChange,isHidden,value}) {
     )
 }
 
-export default function Form({setName,setTel,setEmail,first,second,third}) {
+export default function Form({setName,setTel,setEmail,first,second,third,onChange,types}) {
   const [inputName, setInputName] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputTel, setInputTel] = useState("");
     const [isHidden,setisHidden] = useState(true);
+  const [data, setData] = useState({
+    first: '',
+    second: '',
+    third: ''
+  });
+  const handleChange = (key, value) => {
+    const updated = { ...data, [key]: value };
+    setData(updated);
+    onChange(updated); 
+  };
 return (
     <div className='form-div'>
 <form>
-    <Input name={first} type="text" onChange={(e)=> setInputName(e.target.value)} isHidden= {isHidden} value={inputName}></Input>
-    <Input name={second} type="email" onChange={(e)=> setInputEmail(e.target.value)} isHidden= {isHidden}value={inputEmail} ></Input>
-    <Input name={third} type="tel" onChange={(e)=> setInputTel(e.target.value)} isHidden= {isHidden} value={inputTel}></Input>
+    <Input key={1} name={first} type={types?.[0]} onChange={(e)=> {setInputName(e.target.value);handleChange('first', e.target.value)  }} isHidden= {isHidden} value={inputName}></Input>
+    <Input key={2} name={second} type={types?.[1]} onChange={(e)=> {setInputEmail(e.target.value);handleChange('second', e.target.value)  } } isHidden= {isHidden}value={inputEmail} ></Input>
+    <Input key={3} name={third} type={types?.[2]} onChange={(e)=> {setInputTel(e.target.value);handleChange('third', e.target.value) }} isHidden= {isHidden} value={inputTel}></Input>
 </form>
 {isHidden && (<button type='submit' onClick={
     (e) =>  {
